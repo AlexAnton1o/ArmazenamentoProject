@@ -137,5 +137,35 @@ public class ClienteDAO {
 			}
 	}
 	
+	public static Cliente consultarCliente(int cod) {
+		Cliente cli = null;
+		Connection conn = null;
+		PreparedStatement stat = null;
+		ResultSet rs = null;
+		try {
+			String sql = "SELECT * FROM cliente WHERE codCliente=?;";
+			conn = Conexao.criarConexao();
+			stat = conn.prepareStatement(sql);
+			stat.setInt(1, cod);
+			rs = stat.executeQuery();
+			if (rs.next()) {
+				cli = new Cliente();
+				cli.setCodCliente(rs.getInt("codCliente"));
+				cli.setNome(rs.getString("nome"));
+				cli.setEmail(rs.getString("email"));
+				cli.setEndereco(rs.getString("endereco"));
+				cli.setCidade(rs.getString("cidade"));
+				cli.setEstado(rs.getString("estado"));
+				cli.setFone(rs.getString("fone"));
+			}
+		} catch (Exception e) {
+				System.out.println("ERRO na consulta do cliente. " + e.getMessage());
+			} finally {
+				Conexao.fecharConexao(conn, stat, rs);
+			}
+			return cli;
+		
+	}
+	
 
 }

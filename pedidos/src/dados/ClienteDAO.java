@@ -26,7 +26,7 @@ public class ClienteDAO {
 			return true;
 		}
 		catch(Exception e) {
-			System.out.println("ERRO: A tabela cliente n„o foi criada. - " + e.getMessage());
+			System.out.println("ERRO: A tabela cliente n√£o foi criada. - " + e.getMessage());
 			return false;
 		} finally {
 			Conexao.fecharConexao(conn, stat);
@@ -43,7 +43,7 @@ public class ClienteDAO {
 			stat.execute();
 			return true;
 		} catch(Exception e) {
-			System.out.println("ERRO: A tabela cliente n„o foi excluida. -"+ e.getMessage());
+			System.out.println("ERRO: A tabela cliente n√£o foi excluida. -"+ e.getMessage());
 			return false;
 		} finally {
 			Conexao.fecharConexao(conn, stat);
@@ -75,7 +75,7 @@ public class ClienteDAO {
 		}
 		
 		catch (Exception e) {
-			System.out.println("ERRO: Cliente n„o inserido. " + e.getMessage());
+			System.out.println("ERRO: Cliente n√£o inserido. " + e.getMessage());
 			return false;
 		}
 		
@@ -88,7 +88,7 @@ public class ClienteDAO {
 		Connection conn = null;
 		PreparedStatement stat = null;
 		try {
-			String sql = "UPADDTE Cliente SET "
+			String sql = "UPDATE cliente SET "
 					+ "nome=?, "
 					+ "email=?, "
 					+ "endereco=?, "
@@ -109,11 +109,32 @@ public class ClienteDAO {
 			stat.execute();	
 			return true;
 		} catch (Exception e) {
-			System.out.println("ERRO: Cliente n„o alterado. " + e.getMessage());
+			System.out.println("ERRO: Cliente n√£o alterado. " + e.getMessage());
 			return false;
 		} finally {
 			Conexao.fecharConexao(conn, stat);
 		}
+	}
+	
+	public static boolean excluirCliente(int cod) {
+		Connection conn = null;
+		PreparedStatement stat = null;
+		try {
+			String sql = "DELETE FROM cliente "
+					+ "WHERE codCliente=?";
+			
+			conn = Conexao.criarConexao();
+			stat = conn.prepareStatement(sql);
+			stat.setInt(1, cod);
+			stat.execute();
+			
+			return true;
+		} catch(Exception e) {
+			System.out.println("ERRO: Cliente n√£o exclu√≠do. " + e.getMessage());
+			return false;
+			} finally {
+				Conexao.fecharConexao(conn, stat);
+			}
 	}
 	
 
